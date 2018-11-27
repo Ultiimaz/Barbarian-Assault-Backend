@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Passport\HasApiTokens;
+
 class User extends Authenticatable
 {
     use LaratrustUserTrait;
@@ -19,8 +19,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username','base64_avatar_url', 'email', 'password',
+        'displayName','base64_avatar_url', 'email', 'password',
     ];
+    public function getCities()
+    {
+       return $this->hasMany(City::class,"Owner_id");
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -28,6 +32,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'id','email_verified_at','created_at','updated_at','password', 'remember_token',
     ];
 }

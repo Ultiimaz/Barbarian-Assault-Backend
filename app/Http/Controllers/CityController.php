@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CityController extends Controller
 {
@@ -15,6 +16,10 @@ class CityController extends Controller
     public function index()
     {
         // this called the most!
+
+        $city = City::where('Owner_id',Auth::user()->getAttributes()['id'])->get();
+        $collection = collect([Auth::user(),"cities"=>[$city]]);
+        return response()->json($collection);
     }
 
     /**
